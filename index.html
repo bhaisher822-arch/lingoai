@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LingoAI - Free Language Translator</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080d1b;
+    color: #fff;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 7%;
+    border-bottom: 1px solid #202b43;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #a78bfa;
+}
+
+.logo span {
+    color: white;
+}
+
+.header-label {
+    color: #aab3c9;
+    font-size: 13px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 55px auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    color: #a78bfa;
+}
+
+.hero p {
+    color: #aab3c9;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.translator {
+    background: #111a2e;
+    border: 1px solid #293653;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 15px 50px #0005;
+}
+
+.language-bar {
+    display: grid;
+    grid-template-columns: 1fr 55px 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #354362;
+    background: #19253d;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+.swap {
+    background: #8b5cf6;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.text-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.text-box {
+    background: #0b1426;
+    border: 1px solid #293653;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.box-heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px;
+    color: #aab3c9;
+    font-size: 13px;
+}
+
+textarea {
+    width: 100%;
+    height: 190px;
+    resize: vertical;
+    padding: 16px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+textarea::placeholder {
+    color: #73809a;
+}
+
+.box-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px;
+    border-top: 1px solid #293653;
+}
+
+.small-btn {
+    background: #1c2942;
+    color: #dce4f5;
+    border: 1px solid #344362;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.small-btn:hover {
+    background: #354568;
+}
+
+.translate-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 22px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #7c3aed, #4f46e5);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.translate-btn:hover {
+    opacity: .9;
+}
+
+.translate-btn:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.status {
+    text-align: center;
+    color: #aab3c9;
+    min-height: 25px;
+    margin-top: 16px;
+    font-size: 13px;
+}
+
+.voice-settings {
+    background: #111a2e;
+    border: 1px solid #293653;
+    border-radius: 15px;
+    padding: 22px;
+    margin-top: 25px;
+}
+
+.voice-settings h3 {
+    margin-bottom: 16px;
+    color: #c4b5fd;
+}
+
+.voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.voice-grid label {
+    display: block;
+    color: #aab3c9;
+    font-size: 13px;
+    margin-bottom: 9px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.feature {
+    background: #111a2e;
+    border: 1px solid #293653;
+    border-radius: 13px;
+    padding: 22px;
+}
+
+.feature h3 {
+    margin-bottom: 10px;
+    color: #c4b5fd;
+}
+
+.feature p {
+    color: #aab3c9;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    color: #73809a;
+    padding: 30px 10px;
+    font-size: 13px;
+}
+
+@media(max-width:700px) {
+    header {
+        padding: 18px 5%;
+    }
+
+    .container {
+        margin: 35px auto;
+    }
+
+    .translator {
+        padding: 15px;
+    }
+
+    .text-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .language-bar {
+        grid-template-columns: 1fr 45px 1fr;
+        gap: 7px;
+    }
+
+    select {
+        padding: 11px 5px;
+        font-size: 12px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .voice-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Lingo<span>AI</span></div>
+    <div class="header-label">FREE LANGUAGE TRANSLATOR</div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <h1>Break <span>Language</span> Barriers</h1>
+        <p>Translate languages, speak naturally and learn something new every day.</p>
+    </section>
+
+    <section class="translator">
+
+        <div class="language-bar">
+            <select id="sourceLanguage">
+                <option value="ur">Urdu</option>
+                <option value="en">English</option>
+                <option value="de">German</option>
+                <option value="ms">Malay</option>
+                <option value="hi">Hindi</option>
+            </select>
+
+            <button class="swap" onclick="swapLanguages()" title="Swap languages">⇄</button>
+
+            <select id="targetLanguage">
+                <option value="en">English</option>
+                <option value="ur">Urdu</option>
+                <option value="de">German</option>
+                <option value="ms">Malay</option>
+                <option value="hi">Hindi</option>
+            </select>
+        </div>
+
+        <div class="text-grid">
+
+            <div class="text-box">
+                <div class="box-heading">
+                    <span>Your text</span>
+                    <span id="inputCount">0 characters</span>
+                </div>
+
+                <textarea id="inputText" placeholder="Yahan apna text likhein..."></textarea>
+
+                <div class="box-actions">
+                    <button class="small-btn" onclick="startVoice()">🎤 Speak</button>
+                    <button class="small-btn" onclick="clearInput()">✕ Clear</button>
+                </div>
+            </div>
+
+            <div class="text-box">
+                <div class="box-heading">
+                    <span>Translation</span>
+                    <span>Translated text</span>
+                </div>
+
+                <textarea id="outputText" placeholder="Translation yahan nazar ayegi..." readonly></textarea>
+
+                <div class="box-actions">
+                    <button class="small-btn" onclick="speakText()">🔊 Listen</button>
+                    <button class="small-btn" onclick="copyText()">📋 Copy</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="translate-btn" id="translateButton" onclick="translateText()">
+            ✨ Translate Now
+        </button>
+
+        <div class="status" id="status">Ready to translate.</div>
+
+    </section>
+
+    <section class="voice-settings">
+        <h3>🎙️ Voice Assistant Settings</h3>
+
+        <div class="voice-grid">
+            <div>
+                <label for="voiceGender">Select voice type</label>
+                <select id="voiceGender">
+                    <option value="female">Female Voice</option>
+                    <option value="male">Male Voice</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="voiceSpeed">Voice speed</label>
+                <select id="voiceSpeed">
+                    <option value="1">Normal</option>
+                    <option value="0.8">Slow</option>
+                    <option value="1.2">Fast</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+
+        <div class="feature">
+            <h3>🌍 AI Translation</h3>
+            <p>Translate between Urdu, English, German, Malay and Hindi using a free translation service.</p>
+        </div>
+
+        <div class="feature">
+            <h3>🎤 Voice Assistant</h3>
+            <p>Speak into your microphone and convert your voice into written text.</p>
+        </div>
+
+        <div class="feature">
+            <h3>📚 Learn Languages</h3>
+            <p>Practice different languages with text translation and spoken pronunciation.</p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    LingoAI © 2026 | Your Free Language Companion
+</footer>
+
+<script>
+
+const languages = {
+    ur: "ur-PK",
+    en: "en-US",
+    de: "de-DE",
+    ms: "ms-MY",
+    hi: "hi-IN"
+};
+
+const input = document.getElementById("inputText");
+const output = document.getElementById("outputText");
+const statusBox = document.getElementById("status");
+
+input.addEventListener("input", function() {
+    document.getElementById("inputCount").innerText =
+        input.value.length + " characters";
+});
+
+function swapLanguages() {
+    const source = document.getElementById("sourceLanguage");
+    const target = document.getElementById("targetLanguage");
+
+    const oldSource = source.value;
+    source.value = target.value;
+    target.value = oldSource;
+
+    const oldText = input.value;
+    input.value = output.value;
+    output.value = oldText;
+}
+
+function clearInput() {
+    input.value = "";
+    output.value = "";
+    document.getElementById("inputCount").innerText = "0 characters";
+    statusBox.innerText = "Text cleared.";
+}
+
+async function translateText() {
+    const source = document.getElementById("sourceLanguage").value;
+    const target = document.getElementById("targetLanguage").value;
+    const button = document.getElementById("translateButton");
+    const text = input.value.trim();
+
+    if (!text) {
+        statusBox.innerText = "Please enter some text first.";
+        return;
+    }
+
+    if (source === target) {
+        output.value = text;
+        statusBox.innerText = "Both languages are the same.";
+        return;
+    }
+
+    if (text.length > 4500) {
+        statusBox.innerText = "Please translate smaller text (maximum 4500 characters).";
+        return;
+    }
+
+    button.disabled = true;
+    button.innerText = "Translating...";
+    statusBox.innerText = "Please wait. Translation in progress...";
+    output.value = "";
+
+    try {
+        const url = "https://api.mymemory.translated.net/get?q="
+            + encodeURIComponent(text)
+            + "&langpair=" + source + "|" + target;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Translation service error.");
+        }
+
+        const data = await response.json();
+
+        if (data.responseStatus !== 200 || !data.responseData) {
+            throw new Error(data.responseDetails || "Translation unavailable.");
+        }
+
+        output.value = data.responseData.translatedText;
+        statusBox.innerText = "✓ Translation completed!";
+
+    } catch (error) {
+        console.error(error);
+        statusBox.innerText = "Translation failed. Check your internet or try again later.";
+    } finally {
+        button.disabled = false;
+        button.innerText = "✨ Translate Now";
+    }
+}
+
+function startVoice() {
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        statusBox.innerText =
+            "Voice input is not supported in this browser. Please use Google Chrome.";
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    const source = document.getElementById("sourceLanguage").value;
+
+    recognition.lang = languages[source];
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = function() {
+        statusBox.innerText = "🎤 Listening... Please speak now.";
+    };
+
+    recognition.onresult = function(event) {
+        input.value = event.results[0][0].transcript;
+        document.getElementById("inputCount").innerText =
+            input.value.length + " characters";
+        statusBox.innerText = "Voice converted to text.";
+    };
+
+    recognition.onerror = function(event) {
+        statusBox.innerText = "Microphone error: " + event.error;
+    };
+
+    recognition.onend = function() {
+        if (statusBox.innerText.includes("Listening")) {
+            statusBox.innerText = "Voice input ended.";
+        }
+    };
+
+    recognition.start();
+}
+
+function speakText() {
+    const text = output.value.trim();
+
+    if (!text) {
+        statusBox.innerText = "Translate something first.";
+        return;
+    }
+
+    if (!("speechSynthesis" in window)) {
+        statusBox.innerText = "Voice output is not supported in this browser.";
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const target = document.getElementById("targetLanguage").value;
+    const gender = document.getElementById("voiceGender").value;
+    const speed = Number(document.getElementById("voiceSpeed").value);
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = languages[target];
+    utterance.rate = speed;
+
+    const availableVoices = speechSynthesis.getVoices();
+
+    const matchingVoices = availableVoices.filter(voice =>
+        voice.lang.toLowerCase().startsWith(target)
+    );
+
+    let selectedVoice = matchingVoices.find(voice =>
+        gender === "female"
+            ? /female|woman|zira|samantha|susan|google uk english female/i.test(voice.name)
+            : /male|man|david|mark|alex|daniel|google uk english male/i.test(voice.name)
+    );
+
+    if (!selectedVoice && matchingVoices.length > 0) {
+        selectedVoice = matchingVoices[0];
+    }
+
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    }
+
+    utterance.onstart = function() {
+        statusBox.innerText = "🔊 Speaking...";
+    };
+
+    utterance.onend = function() {
+        statusBox.innerText = "Voice playback finished.";
+    };
+
+    speechSynthesis.speak(utterance);
+}
+
+function copyText() {
+    const text = output.value;
+
+    if (!text) {
+        statusBox.innerText = "Nothing to copy.";
+        return;
+    }
+
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            statusBox.innerText = "✓ Translation copied!";
+        })
+        .catch(() => {
+            output.select();
+            document.execCommand("copy");
+            statusBox.innerText = "Translation copied.";
+        });
+}
+
+</script>
+
+</body>
+</html>
