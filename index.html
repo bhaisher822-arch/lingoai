@@ -1,16 +1,17 @@
 
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#080d1c">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="LingoAI">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="./icon-192.png">
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LingoAI - Free Language Translator</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#080d1c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LingoAI">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="./icon-192.png">
 
 <style>
 * {
@@ -315,6 +316,7 @@ footer {
     <section class="translator">
 
         <div class="language-bar">
+
             <select id="sourceLanguage">
                 <option value="ur">Urdu</option>
                 <option value="en">English</option>
@@ -332,11 +334,13 @@ footer {
                 <option value="ms">Malay</option>
                 <option value="hi">Hindi</option>
             </select>
+
         </div>
 
         <div class="text-grid">
 
             <div class="text-box">
+
                 <div class="box-heading">
                     <span>Your text</span>
                     <span id="inputCount">0 characters</span>
@@ -348,9 +352,11 @@ footer {
                     <button class="small-btn" onclick="startVoice()">🎤 Speak</button>
                     <button class="small-btn" onclick="clearInput()">✕ Clear</button>
                 </div>
+
             </div>
 
             <div class="text-box">
+
                 <div class="box-heading">
                     <span>Translation</span>
                     <span>Translated text</span>
@@ -362,6 +368,7 @@ footer {
                     <button class="small-btn" onclick="speakText()">🔊 Listen</button>
                     <button class="small-btn" onclick="copyText()">📋 Copy</button>
                 </div>
+
             </div>
 
         </div>
@@ -375,9 +382,11 @@ footer {
     </section>
 
     <section class="voice-settings">
+
         <h3>🎙️ Voice Assistant Settings</h3>
 
         <div class="voice-grid">
+
             <div>
                 <label for="voiceGender">Select voice type</label>
                 <select id="voiceGender">
@@ -394,7 +403,9 @@ footer {
                     <option value="1.2">Fast</option>
                 </select>
             </div>
+
         </div>
+
     </section>
 
     <section class="features">
@@ -442,91 +453,134 @@ input.addEventListener("input", function() {
 });
 
 function swapLanguages() {
+
     const source = document.getElementById("sourceLanguage");
     const target = document.getElementById("targetLanguage");
 
     const oldSource = source.value;
+
     source.value = target.value;
     target.value = oldSource;
 
     const oldText = input.value;
+
     input.value = output.value;
     output.value = oldText;
+
+    document.getElementById("inputCount").innerText =
+        input.value.length + " characters";
 }
 
 function clearInput() {
+
     input.value = "";
     output.value = "";
+
     document.getElementById("inputCount").innerText = "0 characters";
+
     statusBox.innerText = "Text cleared.";
 }
 
 async function translateText() {
+
     const source = document.getElementById("sourceLanguage").value;
     const target = document.getElementById("targetLanguage").value;
     const button = document.getElementById("translateButton");
-    const text = input.value.trim();
 
-    if (!text) {
+    const originalText = input.value.trim();
+
+    if (!originalText) {
         statusBox.innerText = "Please enter some text first.";
         return;
     }
 
     if (source === target) {
-        output.value = text;
-        statusBox.innerText = "Both languages are the same.";
-        return;
-    }
-
-    if (text.length > 4500) {
-        statusBox.innerText = "Please translate smaller text (maximum 4500 characters).";
+        output.value = originalText;
+        statusBox.innerText = "Source and target languages are the same.";
         return;
     }
 
     button.disabled = true;
     button.innerText = "Translating...";
-    statusBox.innerText = "Please wait. Translation in progress...";
-    output.value = "";
+    statusBox.innerText = "Please wait...";
 
     try {
-        const url = "https://api.mymemory.translated.net/get?q="
-            + encodeURIComponent(text)
-            + "&langpair=" + source + "|" + target;
 
-        const response = await fetch(url);
+        // Correct a common English question without punctuation.
+        let textToTranslate = originalText;
+
+        if (
+            source === "en" &&
+            /^how are you$/i.test(originalText)
+        ) {
+            textToTranslate = "How are you?";
+        }
+
+        const url =
+            "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" +
+            encodeURIComponent(source) +
+            "&tl=" +
+            encodeURIComponent(target) +
+            "&dt=t&q=" +
+            encodeURIComponent(textToTranslate);
+
+        const response = await fetch(url, {
+            method: "GET"
+        });
+
         if (!response.ok) {
-            throw new Error("Translation service error.");
+            throw new Error("Translation service returned an error.");
         }
 
         const data = await response.json();
 
-        if (data.responseStatus !== 200 || !data.responseData) {
-            throw new Error(data.responseDetails || "Translation unavailable.");
+        if (!Array.isArray(data) || !Array.isArray(data[0])) {
+            throw new Error("Invalid translation response.");
         }
 
-        output.value = data.responseData.translatedText;
-        statusBox.innerText = "✓ Translation completed!";
+        const translatedText = data[0]
+            .filter(item => Array.isArray(item))
+            .map(item => item[0] || "")
+            .join("")
+            .trim();
+
+        if (!translatedText) {
+            throw new Error("No translation was returned.");
+        }
+
+        output.value = translatedText;
+        statusBox.innerText = "✓ Translation completed.";
 
     } catch (error) {
-        console.error(error);
-        statusBox.innerText = "Translation failed. Check your internet or try again later.";
+
+        console.error("Translation error:", error);
+
+        statusBox.innerText =
+            "Translation failed. Please check your internet connection and try again.";
+
     } finally {
+
         button.disabled = false;
         button.innerText = "✨ Translate Now";
+
     }
 }
 
 function startVoice() {
+
     const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
+
         statusBox.innerText =
             "Voice input is not supported in this browser. Please use Google Chrome.";
+
         return;
     }
 
     const recognition = new SpeechRecognition();
+
     const source = document.getElementById("sourceLanguage").value;
 
     recognition.lang = languages[source];
@@ -538,9 +592,12 @@ function startVoice() {
     };
 
     recognition.onresult = function(event) {
+
         input.value = event.results[0][0].transcript;
+
         document.getElementById("inputCount").innerText =
             input.value.length + " characters";
+
         statusBox.innerText = "Voice converted to text.";
     };
 
@@ -549,15 +606,18 @@ function startVoice() {
     };
 
     recognition.onend = function() {
+
         if (statusBox.innerText.includes("Listening")) {
             statusBox.innerText = "Voice input ended.";
         }
+
     };
 
     recognition.start();
 }
 
 function speakText() {
+
     const text = output.value.trim();
 
     if (!text) {
@@ -577,6 +637,7 @@ function speakText() {
     const speed = Number(document.getElementById("voiceSpeed").value);
 
     const utterance = new SpeechSynthesisUtterance(text);
+
     utterance.lang = languages[target];
     utterance.rate = speed;
 
@@ -612,6 +673,7 @@ function speakText() {
 }
 
 function copyText() {
+
     const text = output.value;
 
     if (!text) {
@@ -620,22 +682,38 @@ function copyText() {
     }
 
     navigator.clipboard.writeText(text)
+
         .then(() => {
             statusBox.innerText = "✓ Translation copied!";
         })
+
         .catch(() => {
+
             output.select();
+
             document.execCommand("copy");
+
             statusBox.innerText = "Translation copied.";
+
         });
 }
+
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .then(() => console.log("LingoAI offline support enabled"))
-      .catch(error => console.error("Service worker registration failed:", error));
-  });
+
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register("./service-worker.js")
+
+            .then(() => console.log("LingoAI offline support enabled"))
+
+            .catch(error =>
+                console.error("Service worker registration failed:", error)
+            );
+
+    });
+
 }
+
 </script>
 
 </body>
