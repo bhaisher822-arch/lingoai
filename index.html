@@ -3,45 +3,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1020">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d1b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LingoAI">
+<title>LingoAI - Free Language Translator</title>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>LingoAI Translator</title>
 <style>
+:root {
+  --bg:#080d1b; --panel:#111a2e; --panel2:#17233b;
+  --purple:#9270ff; --text:#f4f5ff; --muted:#9ba8c2;
+  --border:#293650; --green:#39d6a0;
+}
 *{box-sizing:border-box}
-body{margin:0;padding:18px;background:#080d1b;color:#f4f5ff;font-family:Arial,sans-serif}
-.container{max-width:760px;margin:auto}
-header{text-align:center;padding:18px 8px}
-.logo{font-size:34px;font-weight:800;color:#b59aff}
-header p{color:#aab2ca;margin-top:8px}
-.card{background:#111a30;border:1px solid #293653;border-radius:20px;padding:21px;margin:17px 0;box-shadow:0 8px 25px #0002}
-h2{font-size:20px;color:#c9b7ff;margin:0 0 10px}
-.description{font-size:13px;line-height:1.6;color:#aab4cc;margin:0 0 18px}
-label{display:block;font-size:14px;font-weight:600;color:#dce2f5;margin:15px 0 8px}
-select,textarea,input{width:100%;border:1px solid #394766;background:#091225;color:white;border-radius:13px;padding:14px;font-size:15px;outline:none}
-select:focus,textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #8b5cf633}
-textarea{min-height:125px;resize:vertical;line-height:1.5}
-button{border:0;border-radius:12px;padding:13px 17px;background:#8b5cf6;color:white;font-size:14px;font-weight:700;cursor:pointer}
-button:active{transform:scale(.98)}
-button.secondary{background:#293653}
-button.stop{background:#b83250}
-button:disabled{opacity:.5;cursor:not-allowed}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
-.actions button{flex:1}
-.status{font-size:13px;color:#bda9ff;line-height:1.5;margin-top:12px;min-height:18px}
-.output{padding:16px;background:#091225;border:1px solid #293653;border-radius:13px;min-height:90px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-.conversation-line{background:#091225;border:1px solid #293653;padding:14px;border-radius:13px;margin:10px 0;line-height:1.6;overflow-wrap:anywhere}
-.conversation-line strong{color:#c9b7ff}
-.small{font-size:12px;color:#929db8;line-height:1.5}
-footer{text-align:center;color:#8790a8;padding:20px;font-size:12px}
-@media(max-width:520px){
- body{padding:10px}
- .card{padding:16px;border-radius:16px}
- .row{grid-template-columns:1fr}
- .logo{font-size:29px}
- button{padding:13px 10px}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;padding:18px;
+}
+.container{max-width:850px;margin:auto}
+header{text-align:center;padding:14px 0 22px}
+.logo{font-size:34px;font-weight:800;letter-spacing:1px;color:#b49cff}
+.tagline{color:var(--muted);font-size:12px;letter-spacing:2px;margin-top:7px}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:20px;padding:18px;margin-bottom:16px;
+}
+h2{font-size:17px;margin:0 0 15px}
+label{display:block;color:var(--muted);font-size:13px;margin:0 0 8px}
+select,textarea,input[type=file]{
+  width:100%;background:var(--panel2);color:var(--text);
+  border:1px solid var(--border);border-radius:12px;
+  padding:13px;font-size:15px;outline:none;min-width:0;
+}
+select:focus,textarea:focus{border-color:var(--purple)}
+textarea{min-height:130px;resize:vertical;line-height:1.5}
+.language-row{
+  display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);
+  align-items:end;gap:9px;margin-bottom:16px;
+}
+.swap{
+  height:44px;width:42px;border:1px solid var(--border);
+  background:var(--panel2);color:white;border-radius:12px;
+  font-size:20px;cursor:pointer;
+}
+button{
+  border:0;border-radius:12px;padding:13px 16px;
+  font-size:14px;font-weight:700;cursor:pointer;
+}
+.primary{background:var(--purple);color:white}
+.secondary{background:var(--panel2);color:white;border:1px solid var(--border)}
+.danger{background:#452536;color:#ffd8e3}
+.button-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.button-row button{flex:1;min-width:105px}
+.result{
+  background:var(--panel2);border:1px solid var(--border);
+  border-radius:14px;padding:15px;min-height:100px;
+  white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere;
+}
+.status{font-size:13px;color:var(--muted);margin-top:10px;min-height:18px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.conversation{
+  display:flex;flex-direction:column;gap:12px;
+  max-height:360px;overflow-y:auto;
+}
+.message{padding:13px;border-radius:14px;background:var(--panel2);line-height:1.5}
+.message strong{color:#b49cff;font-size:12px;display:block;margin-bottom:6px}
+.message .translated{color:#a8f0d5;margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 5px}
+.small-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}
+input[type=file]{font-size:13px}
+@media(max-width:480px){
+  body{padding:10px}
+  .card{padding:14px;border-radius:17px}
+  .language-row{grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr);gap:6px}
+  .swap{width:36px;height:43px;font-size:17px}
+  .language-row select{padding:11px 7px;font-size:13px}
+  .settings-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .settings-grid select{padding:11px 7px;font-size:13px}
+  .button-row{gap:7px}
+  .button-row button{padding:12px 9px;font-size:13px;min-width:0}
 }
 </style>
 </head>
@@ -49,478 +89,399 @@ footer{text-align:center;color:#8790a8;padding:20px;font-size:12px}
 <div class="container">
 
 <header>
- <div class="logo">🌍 LingoAI</div>
- <p>Your Free Language Companion</p>
+  <div class="logo">LingoAI</div>
+  <div class="tagline">FREE LANGUAGE TRANSLATOR</div>
 </header>
 
 <section class="card">
-<h2>🌐 Translate Text</h2>
-<p class="description">Choose your languages, enter text and translate.</p>
+  <h2>Text Translator</h2>
 
-<div class="row">
- <div>
-  <label for="sourceLanguage">Translate From</label>
-  <select id="sourceLanguage"></select>
- </div>
- <div>
-  <label for="targetLanguage">Translate To</label>
-  <select id="targetLanguage"></select>
- </div>
-</div>
+  <div class="language-row">
+    <div>
+      <label for="sourceLanguage">From</label>
+      <select id="sourceLanguage"></select>
+    </div>
+    <button class="swap" onclick="swapLanguages()" title="Swap languages">⇄</button>
+    <div>
+      <label for="targetLanguage">To</label>
+      <select id="targetLanguage"></select>
+    </div>
+  </div>
 
-<div class="actions">
- <button class="secondary" id="swapBtn">⇄ Swap Languages</button>
-</div>
+  <label for="inputText">Enter your text</label>
+  <textarea id="inputText" placeholder="Type or paste your text here..."></textarea>
 
-<label for="inputText">Your Text</label>
-<textarea id="inputText" placeholder="Type your text here..."></textarea>
+  <div class="button-row">
+    <button class="primary" onclick="translateText()">Translate</button>
+    <button class="secondary" onclick="startVoice()">🎙 Speak</button>
+    <button class="secondary" onclick="clearInput()">Clear</button>
+  </div>
 
-<div class="actions">
- <button id="translateBtn">Translate</button>
- <button class="secondary" id="micBtn">🎙 Speak</button>
- <button class="secondary" id="clearBtn">Clear</button>
-</div>
+  <div class="status" id="translateStatus">Ready to translate.</div>
 
-<div class="status" id="translateStatus">Ready to translate.</div>
+  <label style="margin-top:17px">Translation</label>
+  <div class="result" id="outputText">Your translation will appear here...</div>
 
-<label>Translation Result</label>
-<div class="output" id="outputText">Your translation will appear here.</div>
-
-<div class="actions">
- <button id="copyBtn">Copy Translation</button>
- <button class="secondary" id="speakBtn">🔊 Listen</button>
-</div>
+  <div class="button-row">
+    <button class="secondary" onclick="speakText()">🔊 Listen</button>
+    <button class="secondary" onclick="copyText()">Copy</button>
+  </div>
 </section>
 
 <section class="card">
-<h2>🎤 Voice Settings</h2>
-<p class="description">Choose whether you want a male or female voice. LingoAI will try to select a matching voice installed on your device.</p>
-
-<label for="voiceGender">Speaking Voice</label>
-<select id="voiceGender">
- <option value="female">♀ Female Voice</option>
- <option value="male">♂ Male Voice</option>
-</select>
-
-<label for="voiceSpeed">Speaking Speed</label>
-<select id="voiceSpeed">
- <option value="0.75">🐢 Slow</option>
- <option value="1" selected>▶ Normal</option>
- <option value="1.25">⚡ Fast</option>
-</select>
-
-<div class="status" id="voiceStatus">Voice settings ready.</div>
-<p class="small">Note: Male and female voice availability depends on your device. If it only has one suitable voice, the sound may not change when you switch the setting.</p>
+  <h2>Photo Scan</h2>
+  <label for="photoInput">Choose a photo containing text</label>
+  <input type="file" id="photoInput" accept="image/*">
+  <div class="button-row">
+    <button class="primary" onclick="scanPhoto()">📷 Scan Photo</button>
+    <button class="secondary" onclick="clearPhoto()">Clear Photo</button>
+  </div>
+  <div class="status" id="scanStatus">Choose a clear photo to scan.</div>
+  <div class="small-note">
+    English and Urdu OCR are supported. The first scan may take longer while the language data downloads.
+    Clear, straight, well-lit photos give better results.
+  </div>
 </section>
 
 <section class="card">
-<h2>🗣️ Live Conversation</h2>
-<p class="description">Person A speaks in their language. LingoAI translates and reads it aloud in Person B's language. Then Person B can reply.</p>
-
-<label for="personA">Person A speaks</label>
-<select id="personA"></select>
-
-<label for="personB">Person B speaks</label>
-<select id="personB"></select>
-
-<div class="actions">
- <button id="talkAB">🎙 Person A speaks</button>
- <button id="talkBA">🎙 Person B speaks</button>
-</div>
-<div class="actions">
- <button class="stop" id="stopConversation">■ Stop Conversation</button>
- <button class="secondary" id="clearConversation">Clear Screen</button>
-</div>
-
-<div class="status" id="conversationStatus">Ready. Choose who speaks first.</div>
-<div id="conversationResult"></div>
+  <h2>Voice Settings</h2>
+  <div class="settings-grid">
+    <div>
+      <label for="voiceGender">Speaking Voice</label>
+      <select id="voiceGender">
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+      </select>
+    </div>
+    <div>
+      <label for="voiceSpeed">Speaking Speed</label>
+      <select id="voiceSpeed">
+        <option value="0.8">Slow</option>
+        <option value="1" selected>Normal</option>
+        <option value="1.2">Fast</option>
+      </select>
+    </div>
+  </div>
+  <div class="small-note">
+    Available voices depend on the voices installed on your phone or computer.
+  </div>
 </section>
 
 <section class="card">
-<h2>📷 Scan Text from Photo</h2>
-<p class="description">Choose a photo of printed text to extract the words.</p>
-<input type="file" id="photoInput" accept="image/*" capture="environment">
-<div class="actions">
- <button id="scanBtn">Scan Photo</button>
-</div>
-<div class="status" id="scanStatus"></div>
+  <h2>Live Conversation</h2>
+  <div class="button-row">
+    <button class="primary" onclick="conversationSpeak('Person A')">🎙 Person A</button>
+    <button class="primary" onclick="conversationSpeak('Person B')">🎙 Person B</button>
+    <button class="secondary" onclick="clearConversation()">Clear Screen</button>
+  </div>
+  <div class="status" id="conversationStatus">Speak one person at a time.</div>
+  <div class="conversation" id="conversation"></div>
+  <div class="small-note">Conversation is displayed only during this session. It is not saved.</div>
 </section>
 
 <footer>LingoAI © 2026 | Created by Sher Ghazi</footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
-const $ = id => document.getElementById(id);
-
 const languages = [
-["auto","Auto Detect"],["af","Afrikaans"],["sq","Albanian"],["am","Amharic"],
-["ar","Arabic"],["hy","Armenian"],["az","Azerbaijani"],["eu","Basque"],
-["be","Belarusian"],["bn","Bengali"],["bs","Bosnian"],["bg","Bulgarian"],
-["my","Burmese"],["ca","Catalan"],["zh-CN","Chinese Simplified"],
-["zh-TW","Chinese Traditional"],["hr","Croatian"],["cs","Czech"],
-["da","Danish"],["nl","Dutch"],["en","English"],["et","Estonian"],
-["tl","Filipino"],["fi","Finnish"],["fr","French"],["gl","Galician"],
-["ka","Georgian"],["de","German"],["el","Greek"],["gu","Gujarati"],
-["he","Hebrew"],["hi","Hindi"],["hu","Hungarian"],["is","Icelandic"],
-["id","Indonesian"],["ga","Irish"],["it","Italian"],["ja","Japanese"],
-["jv","Javanese"],["kn","Kannada"],["kk","Kazakh"],["km","Khmer"],
-["ko","Korean"],["lo","Lao"],["lv","Latvian"],["lt","Lithuanian"],
-["mk","Macedonian"],["ms","Malay"],["ml","Malayalam"],["mr","Marathi"],
-["mn","Mongolian"],["ne","Nepali"],["no","Norwegian"],["ps","Pashto"],
-["fa","Persian / Dari"],["pl","Polish"],["pt","Portuguese"],["pa","Punjabi"],
-["ro","Romanian"],["ru","Russian"],["sr","Serbian"],["sd","Sindhi"],
-["si","Sinhala"],["sk","Slovak"],["sl","Slovenian"],["so","Somali"],
-["es","Spanish"],["sw","Swahili"],["sv","Swedish"],["ta","Tamil"],
-["te","Telugu"],["th","Thai"],["tr","Turkish"],["uk","Ukrainian"],
-["ur","Urdu"],["uz","Uzbek"],["vi","Vietnamese"],["cy","Welsh"],
-["yi","Yiddish"],["yo","Yoruba"],["zu","Zulu"]
+  ["auto","Auto Detect"],["ur","Urdu"],["en","English"],
+  ["ms","Malay"],["de","German"],["hi","Hindi"],
+  ["ar","Arabic"],["ps","Pashto"],["fa","Persian"],
+  ["fr","French"],["es","Spanish"],["it","Italian"],
+  ["pt","Portuguese"],["ru","Russian"],["zh-CN","Chinese"],
+  ["ja","Japanese"],["ko","Korean"],["tr","Turkish"],
+  ["bn","Bengali"],["ta","Tamil"],["te","Telugu"],
+  ["th","Thai"],["id","Indonesian"],["nl","Dutch"],
+  ["pl","Polish"],["uk","Ukrainian"],["vi","Vietnamese"],
+  ["sw","Swahili"],["fil","Filipino"],["ne","Nepali"],
+  ["si","Sinhala"],["gu","Gujarati"],["pa","Punjabi"],
+  ["mr","Marathi"],["fa","Persian"],["he","Hebrew"],
+  ["el","Greek"],["ro","Romanian"],["sv","Swedish"],
+  ["no","Norwegian"],["da","Danish"],["fi","Finnish"],
+  ["cs","Czech"],["hu","Hungarian"],["hr","Croatian"],
+  ["sr","Serbian"],["bg","Bulgarian"],["sk","Slovak"],
+  ["af","Afrikaans"],["am","Amharic"],["az","Azerbaijani"],
+  ["my","Myanmar"],["km","Khmer"],["lo","Lao"],
+  ["uz","Uzbek"],["kk","Kazakh"],["sq","Albanian"],
+  ["et","Estonian"],["lv","Latvian"],["lt","Lithuanian"],
+  ["is","Icelandic"],["ga","Irish"],["cy","Welsh"],
+  ["ha","Hausa"],["yo","Yoruba"],["zu","Zulu"]
 ];
 
-function fillLanguages(id, selected) {
- const el = $(id);
- el.innerHTML = "";
- languages.forEach(([code,name]) => {
-  const op = document.createElement("option");
-  op.value = code;
-  op.textContent = name;
-  if(code === selected) op.selected = true;
-  el.appendChild(op);
- });
+const sourceSelect = document.getElementById("sourceLanguage");
+const targetSelect = document.getElementById("targetLanguage");
+
+function fillLanguages(){
+  languages.forEach(([code,name])=>{
+    sourceSelect.add(new Option(name,code));
+    targetSelect.add(new Option(name,code));
+  });
+  sourceSelect.value="auto";
+  targetSelect.value="en";
+}
+fillLanguages();
+
+function swapLanguages(){
+  if(sourceSelect.value==="auto") return;
+  const old=sourceSelect.value;
+  sourceSelect.value=targetSelect.value;
+  targetSelect.value=old;
+  const input=document.getElementById("inputText");
+  const output=document.getElementById("outputText");
+  input.value=output.textContent==="Your translation will appear here..."?"":output.textContent;
+  output.textContent="Your translation will appear here...";
 }
 
-fillLanguages("sourceLanguage","auto");
-fillLanguages("targetLanguage","en");
-fillLanguages("personA","ur");
-fillLanguages("personB","en");
-
-function locale(code) {
- const map = {
-  "auto":"en-US","en":"en-US","ur":"ur-PK","hi":"hi-IN",
-  "ms":"ms-MY","de":"de-DE","ar":"ar-SA","fa":"fa-IR",
-  "ps":"ps-AF","zh-CN":"zh-CN","zh-TW":"zh-TW",
-  "pt":"pt-PT","es":"es-ES"
- };
- return map[code] || code;
+async function translateValue(text, source, target){
+  const url="https://translate.googleapis.com/translate_a/single?client=gtx&sl="
+    +encodeURIComponent(source)+"&tl="+encodeURIComponent(target)
+    +"&dt=t&q="+encodeURIComponent(text);
+  const response=await fetch(url);
+  if(!response.ok) throw new Error("Translation service is not responding.");
+  const data=await response.json();
+  return data[0].map(item=>item[0]||"").join("");
 }
 
-/* TRANSLATION */
-async function translateText(text, from, to) {
- if(!text.trim()) throw new Error("Please enter some text.");
- const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" +
- encodeURIComponent(from) + "&tl=" + encodeURIComponent(to) +
- "&dt=t&q=" + encodeURIComponent(text);
-
- const response = await fetch(url);
- if(!response.ok) throw new Error("Translation service is unavailable. Try again.");
- const data = await response.json();
- if(!data || !data[0]) throw new Error("Could not translate this text.");
- return data[0].map(part => part[0] || "").join("");
-}
-
-async function doTranslate() {
- const text = $("inputText").value.trim();
- if(!text) {
-  $("translateStatus").textContent = "Please enter text first.";
-  return;
- }
- $("translateBtn").disabled = true;
- $("translateStatus").textContent = "Translating...";
- try {
-  const result = await translateText(text,$("sourceLanguage").value,$("targetLanguage").value);
-  $("outputText").textContent = result;
-  $("translateStatus").textContent = "✓ Translation completed.";
- } catch(e) {
-  $("translateStatus").textContent = "Error: " + e.message;
- } finally {
-  $("translateBtn").disabled = false;
- }
-}
-$("translateBtn").addEventListener("click",doTranslate);
-
-$("swapBtn").addEventListener("click",() => {
- const a = $("sourceLanguage");
- const b = $("targetLanguage");
- if(a.value === "auto") {
-  $("translateStatus").textContent = "Choose a source language before swapping.";
-  return;
- }
- const old = a.value;
- a.value = b.value;
- b.value = old;
- const input = $("inputText").value;
- $("inputText").value = $("outputText").textContent === "Your translation will appear here." ? "" : $("outputText").textContent;
- $("outputText").textContent = input || "Your translation will appear here.";
-});
-
-$("clearBtn").addEventListener("click",() => {
- $("inputText").value = "";
- $("outputText").textContent = "Your translation will appear here.";
- $("translateStatus").textContent = "Ready to translate.";
-});
-
-$("copyBtn").addEventListener("click",async() => {
- const text = $("outputText").textContent;
- if(!text || text === "Your translation will appear here.") return;
- try {
-  await navigator.clipboard.writeText(text);
-  $("translateStatus").textContent = "Translation copied.";
- } catch(e) {
-  $("translateStatus").textContent = "Copy is unavailable in this browser.";
- }
-});
-
-/* SPEECH RECOGNITION */
-const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-let normalRecognition = null;
-
-$("micBtn").addEventListener("click",() => {
- if(!SpeechRecognitionAPI) {
-  $("translateStatus").textContent = "Voice input requires a supported browser such as Chrome.";
-  return;
- }
- try {
-  normalRecognition = new SpeechRecognitionAPI();
-  normalRecognition.lang = locale($("sourceLanguage").value);
-  normalRecognition.interimResults = false;
-  normalRecognition.maxAlternatives = 1;
-  $("translateStatus").textContent = "Listening. Please speak...";
-  normalRecognition.onresult = e => {
-   $("inputText").value = e.results[0][0].transcript;
-   $("translateStatus").textContent = "Voice captured. Press Translate.";
-  };
-  normalRecognition.onerror = e => {
-   $("translateStatus").textContent = "Microphone error: " + e.error;
-  };
-  normalRecognition.start();
- } catch(e) {
-  $("translateStatus").textContent = e.message;
- }
-});
-
-/* AUTOMATIC MALE / FEMALE VOICE SELECTION */
-let voices = [];
-
-function refreshVoices() {
- voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
- if(voices.length) {
-  $("voiceStatus").textContent = voices.length + " device voices available. Your selected voice will be used when possible.";
- }
-}
-
-refreshVoices();
-if("onvoiceschanged" in speechSynthesis) {
- speechSynthesis.onvoiceschanged = refreshVoices;
-}
-
-function genderMatch(voice,gender) {
- const name = voice.name.toLowerCase();
-
- const femaleWords = ["female","woman","girl","samantha","victoria","karen","moira","zira","susan","ava","allison","jenny"];
- const maleWords = ["male","man","boy","david","daniel","alex","george","james","guy","ryan","mark"];
-
- const words = gender === "female" ? femaleWords : maleWords;
- return words.some(word => name.includes(word));
-}
-
-function chooseVoice(gender,language) {
- if(!voices.length) refreshVoices();
- if(!voices.length) return null;
-
- const lang = language.toLowerCase();
- const languageVoices = voices.filter(v => v.lang.toLowerCase().startsWith(lang.split("-")[0]));
-
- const matchingLanguage = languageVoices.length ? languageVoices : voices;
- const matchingGender = matchingLanguage.filter(v => genderMatch(v,gender));
-
- if(matchingGender.length) return matchingGender[0];
-
- if(matchingLanguage.length) {
-  $("voiceStatus").textContent = "No clearly matching " + gender + " voice found for this language. Using an available voice instead.";
-  return matchingLanguage[0];
- }
-
- return null;
-}
-
-function speakText(text,language) {
- if(!text || !text.trim()) return;
-
- if(!window.speechSynthesis) {
-  $("voiceStatus").textContent = "Speech output is not supported on this device.";
-  return;
- }
-
- const gender = $("voiceGender").value;
- const voice = chooseVoice(gender,locale(language));
-
- if(!voice) {
-  $("voiceStatus").textContent = "No device voices found. Check your device speech settings.";
-  return;
- }
-
- speechSynthesis.cancel();
-
- const utterance = new SpeechSynthesisUtterance(text);
- utterance.voice = voice;
- utterance.lang = voice.lang || locale(language);
- utterance.rate = Number($("voiceSpeed").value);
-
- utterance.onstart = () => {
-  $("voiceStatus").textContent = "Speaking with " + voice.name + ".";
- };
- utterance.onerror = e => {
-  $("voiceStatus").textContent = "Voice error: " + e.error;
- };
-
- speechSynthesis.speak(utterance);
-}
-
-$("speakBtn").addEventListener("click",() => {
- speakText($("outputText").textContent,$("targetLanguage").value);
-});
-
-/* LIVE CONVERSATION */
-let conversationRunning = false;
-let activeRecognition = null;
-
-function stopConversation() {
- conversationRunning = false;
- if(activeRecognition) {
-  try { activeRecognition.abort(); } catch(e) {}
-  activeRecognition = null;
- }
- if(window.speechSynthesis) speechSynthesis.cancel();
- $("conversationStatus").textContent = "Conversation stopped.";
- $("talkAB").disabled = false;
- $("talkBA").disabled = false;
-}
-
-$("stopConversation").addEventListener("click",stopConversation);
-$("clearConversation").addEventListener("click",() => {
- $("conversationResult").innerHTML = "";
- $("conversationStatus").textContent = "Conversation screen cleared.";
-});
-
-function listenForTurn(language) {
- return new Promise((resolve,reject) => {
-  if(!SpeechRecognitionAPI) {
-   reject(new Error("Please use Chrome for voice input."));
-   return;
+async function translateText(){
+  const input=document.getElementById("inputText").value.trim();
+  const output=document.getElementById("outputText");
+  const status=document.getElementById("translateStatus");
+  if(!input){status.textContent="Please enter some text first.";return;}
+  if(sourceSelect.value===targetSelect.value && sourceSelect.value!=="auto"){
+    status.textContent="Please choose two different languages.";return;
   }
-  let finished = false;
-  try {
-   const rec = new SpeechRecognitionAPI();
-   activeRecognition = rec;
-   rec.lang = locale(language);
-   rec.interimResults = false;
-   rec.maxAlternatives = 1;
+  status.textContent="Translating...";
+  output.textContent="";
+  try{
+    const result=await translateValue(input,sourceSelect.value,targetSelect.value);
+    output.textContent=result||"No translation found.";
+    status.textContent="✓ Translation completed.";
+  }catch(error){
+    output.textContent="Translation failed. Please check your internet connection and try again.";
+    status.textContent="Could not translate this text.";
+  }
+}
 
-   rec.onresult = e => {
-    if(finished) return;
-    finished = true;
-    resolve(e.results[0][0].transcript);
-   };
-   rec.onerror = e => {
-    if(finished) return;
-    finished = true;
-    reject(new Error("Microphone error: " + e.error));
-   };
-   rec.onend = () => {
-    if(!finished) {
-     finished = true;
-     reject(new Error("No speech detected. Please try again."));
+function clearInput(){
+  document.getElementById("inputText").value="";
+  document.getElementById("outputText").textContent="Your translation will appear here...";
+  document.getElementById("translateStatus").textContent="Ready to translate.";
+}
+
+function copyText(){
+  const text=document.getElementById("outputText").textContent;
+  if(!text||text==="Your translation will appear here...") return;
+  navigator.clipboard.writeText(text)
+    .then(()=>document.getElementById("translateStatus").textContent="Translation copied.")
+    .catch(()=>document.getElementById("translateStatus").textContent="Copy is not available in this browser.");
+}
+
+function getSpeechLocale(code){
+  const map={"zh-CN":"zh-CN","auto":"en-US"};
+  return map[code]||code;
+}
+
+function getVoice(locale,gender){
+  const voices=speechSynthesis.getVoices();
+  const prefix=locale.toLowerCase().split("-")[0];
+  const matching=voices.filter(v=>v.lang.toLowerCase().startsWith(prefix));
+  const words=gender==="female"
+    ?["female","woman","samantha","zira","susan","karen","victoria","aria","jenny"]
+    :["male","man","david","daniel","alex","mark","guy","james"];
+  return matching.find(v=>words.some(w=>v.name.toLowerCase().includes(w)))
+    ||matching[0]||voices[0]||null;
+}
+
+function speak(text,language){
+  if(!("speechSynthesis" in window)){alert("Speech is not supported in this browser.");return;}
+  if(!text.trim()) return;
+  speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang=getSpeechLocale(language);
+  utterance.rate=Number(document.getElementById("voiceSpeed").value);
+  const voice=getVoice(utterance.lang,document.getElementById("voiceGender").value);
+  if(voice) utterance.voice=voice;
+  speechSynthesis.speak(utterance);
+}
+
+function speakText(){
+  const text=document.getElementById("outputText").textContent;
+  if(text==="Your translation will appear here...") return;
+  speak(text,targetSelect.value);
+}
+
+function startRecognition(language,onText,onEnd){
+  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Recognition){alert("Voice recognition is not supported. Please use Chrome.");return;}
+  const recognition=new Recognition();
+  recognition.lang=getSpeechLocale(language);
+  recognition.interimResults=false;
+  recognition.maxAlternatives=1;
+  recognition.onresult=e=>onText(e.results[0][0].transcript);
+  recognition.onerror=e=>{
+    document.getElementById("translateStatus").textContent="Voice error: "+e.error;
+    if(onEnd)onEnd();
+  };
+  recognition.onend=()=>{if(onEnd)onEnd();};
+  recognition.start();
+}
+
+function startVoice(){
+  document.getElementById("translateStatus").textContent="Listening...";
+  startRecognition(sourceSelect.value==="auto"?"ur":sourceSelect.value,
+    text=>{
+      document.getElementById("inputText").value=text;
+      document.getElementById("translateStatus").textContent="Voice captured. Translating...";
+      translateText();
+    },
+    ()=>{});
+}
+
+let activeConversation=false;
+function conversationSpeak(person){
+  if(activeConversation)return;
+  activeConversation=true;
+  const status=document.getElementById("conversationStatus");
+  status.textContent=person+" is listening...";
+  const recognitionLanguage=person==="Person A"?sourceSelect.value:targetSelect.value;
+  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Recognition){status.textContent="Voice recognition is not supported in this browser.";activeConversation=false;return;}
+  const recognition=new Recognition();
+  recognition.lang=getSpeechLocale(recognitionLanguage==="auto"?"ur":recognitionLanguage);
+  recognition.interimResults=false;
+  recognition.maxAlternatives=1;
+  recognition.onresult=async event=>{
+    const original=event.results[0][0].transcript;
+    const from=person==="Person A"?sourceSelect.value:targetSelect.value;
+    const to=person==="Person A"?targetSelect.value:sourceSelect.value;
+    status.textContent="Translating conversation...";
+    try{
+      const translated=await translateValue(original,from,to);
+      addConversation(person,original,translated);
+      speak(translated,to);
+      status.textContent="Translation completed. Tap a person to speak again.";
+    }catch(e){status.textContent="Translation failed. Please try again.";}
+  };
+  recognition.onerror=()=>{status.textContent="Could not hear clearly. Please try again.";};
+  recognition.onend=()=>{activeConversation=false;};
+  try{recognition.start();}
+  catch(e){activeConversation=false;status.textContent="Please try again.";}
+}
+
+function addConversation(person,original,translated){
+  const box=document.getElementById("conversation");
+  const item=document.createElement("div");
+  item.className="message";
+  const heading=document.createElement("strong");
+  heading.textContent=person;
+  const originalLine=document.createElement("div");
+  originalLine.textContent=original;
+  const translatedLine=document.createElement("div");
+  translatedLine.className="translated";
+  translatedLine.textContent=translated;
+  item.append(heading,originalLine,translatedLine);
+  box.appendChild(item);
+  box.scrollTop=box.scrollHeight;
+}
+
+function clearConversation(){
+  document.getElementById("conversation").innerHTML="";
+  document.getElementById("conversationStatus").textContent="Conversation cleared.";
+}
+
+/* PHOTO OCR */
+let ocrWorkers={};
+
+async function getOCRWorker(language,status){
+  if(ocrWorkers[language])return ocrWorkers[language];
+  status.textContent="Loading "+(language==="urd"?"Urdu":"English")+" OCR for the first time...";
+  if(!window.Tesseract)throw new Error("OCR library could not load. Check your internet.");
+  const worker=await Tesseract.createWorker(language,1,{
+    logger:message=>{
+      if(message.status){
+        const percent=message.progress?Math.round(message.progress*100)+"%":"";
+        status.textContent=message.status+" "+percent;
+      }
     }
-   };
-   rec.start();
-  } catch(e) {
-   reject(e);
+  });
+  ocrWorkers[language]=worker;
+  return worker;
+}
+
+function prepareImage(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const maxSide=1800;
+      const scale=Math.min(1,maxSide/Math.max(img.width,img.height));
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.round(img.width*scale);
+      canvas.height=Math.round(img.height*scale);
+      const ctx=canvas.getContext("2d",{willReadFrequently:true});
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      const imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+      const pixels=imageData.data;
+      for(let i=0;i<pixels.length;i+=4){
+        const gray=0.299*pixels[i]+0.587*pixels[i+1]+0.114*pixels[i+2];
+        const adjusted=Math.max(0,Math.min(255,(gray-128)*1.25+128));
+        pixels[i]=pixels[i+1]=pixels[i+2]=adjusted;
+      }
+      ctx.putImageData(imageData,0,0);
+      URL.revokeObjectURL(url);
+      resolve(canvas);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Could not open this image."));};
+    img.src=url;
+  });
+}
+
+async function scanPhoto(){
+  const file=document.getElementById("photoInput").files[0];
+  const status=document.getElementById("scanStatus");
+  if(!file){status.textContent="Please choose a photo first.";return;}
+  if(!file.type.startsWith("image/")){status.textContent="Please choose an image file.";return;}
+
+  const selectedLanguage=sourceSelect.value;
+  let ocrLanguage;
+  if(selectedLanguage==="ur")ocrLanguage="urd";
+  else if(selectedLanguage==="auto"||selectedLanguage==="en")ocrLanguage="eng";
+  else{
+    status.textContent="For best results, choose Urdu or English in the From dropdown before scanning.";
+    return;
   }
- });
+
+  try{
+    status.textContent="Preparing photo...";
+    const canvas=await prepareImage(file);
+    const worker=await getOCRWorker(ocrLanguage,status);
+    status.textContent="Reading text from photo...";
+    const result=await worker.recognize(canvas);
+    const extracted=(result.data.text||"").trim();
+    if(!extracted){
+      status.textContent="No text found. Try a clearer, straight photo.";
+      return;
+    }
+    document.getElementById("inputText").value=extracted;
+    status.textContent="✓ Text scanned. You can now press Translate.";
+  }catch(error){
+    console.error(error);
+    status.textContent="Photo scan failed: "+error.message;
+  }
 }
 
-async function conversationTurn(person) {
- if(conversationRunning) return;
-
- const from = person === "A" ? $("personA").value : $("personB").value;
- const to = person === "A" ? $("personB").value : $("personA").value;
-
- conversationRunning = true;
- $("talkAB").disabled = true;
- $("talkBA").disabled = true;
-
- try {
-  $("conversationStatus").textContent = "Person " + person + " is speaking. Listening...";
-  const original = await listenForTurn(from);
-  activeRecognition = null;
-
-  if(!conversationRunning) return;
-
-  $("conversationStatus").textContent = "Translating...";
-  const translated = await translateText(original,from,to);
-
-  if(!conversationRunning) return;
-
-  const block = document.createElement("div");
-  block.className = "conversation-line";
-
-  const heading = document.createElement("strong");
-  heading.textContent = "Person " + person;
-
-  const originalLine = document.createElement("div");
-  originalLine.textContent = original;
-
-  const translatedLine = document.createElement("div");
-  translatedLine.style.color = "#c9b7ff";
-  translatedLine.style.marginTop = "8px";
-  translatedLine.textContent = "Translation: " + translated;
-
-  block.append(heading,originalLine,translatedLine);
-  $("conversationResult").prepend(block);
-
-  $("conversationStatus").textContent = "Translation complete. Playing audio...";
-  speakText(translated,to);
-  $("conversationStatus").textContent = "Done. The other person can speak now.";
-
- } catch(e) {
-  if(conversationRunning) $("conversationStatus").textContent = e.message;
- } finally {
-  conversationRunning = false;
-  activeRecognition = null;
-  $("talkAB").disabled = false;
-  $("talkBA").disabled = false;
- }
+function clearPhoto(){
+  document.getElementById("photoInput").value="";
+  document.getElementById("scanStatus").textContent="Choose a clear photo to scan.";
 }
 
-$("talkAB").addEventListener("click",() => conversationTurn("A"));
-$("talkBA").addEventListener("click",() => conversationTurn("B"));
-
-/* PHOTO TEXT SCANNER */
-$("scanBtn").addEventListener("click",async() => {
- const file = $("photoInput").files[0];
- if(!file) {
-  $("scanStatus").textContent = "Please choose a photo first.";
-  return;
- }
- $("scanBtn").disabled = true;
- $("scanStatus").textContent = "Scanning image. Please wait...";
- try {
-  const result = await Tesseract.recognize(file,"eng");
-  $("inputText").value = result.data.text.trim();
-  $("scanStatus").textContent = "Text extracted. Check it and press Translate.";
- } catch(e) {
-  $("scanStatus").textContent = "Scan failed: " + e.message;
- } finally {
-  $("scanBtn").disabled = false;
- }
-});
-
-/* SERVICE WORKER */
-if("serviceWorker" in navigator) {
- window.addEventListener("load",() => {
-  navigator.serviceWorker.register("service-worker.js").catch(console.error);
- });
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+  });
 }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </body>
 </html>
