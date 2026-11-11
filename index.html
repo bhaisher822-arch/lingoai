@@ -3,718 +3,524 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LingoAI - Free Language Translator</title>
-
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#080d1c">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="LingoAI">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="./icon-192.png">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>LingoAI Translator</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #080d1b;
-    color: #fff;
-    min-height: 100vh;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 7%;
-    border-bottom: 1px solid #202b43;
-}
-
-.logo {
-    font-size: 27px;
-    font-weight: bold;
-    color: #a78bfa;
-}
-
-.logo span {
-    color: white;
-}
-
-.header-label {
-    color: #aab3c9;
-    font-size: 13px;
-}
-
-.container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 55px auto;
-}
-
-.hero {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-.hero h1 {
-    font-size: clamp(32px, 5vw, 52px);
-    margin-bottom: 15px;
-}
-
-.hero h1 span {
-    color: #a78bfa;
-}
-
-.hero p {
-    color: #aab3c9;
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.translator {
-    background: #111a2e;
-    border: 1px solid #293653;
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: 0 15px 50px #0005;
-}
-
-.language-bar {
-    display: grid;
-    grid-template-columns: 1fr 55px 1fr;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-select {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid #354362;
-    background: #19253d;
-    color: white;
-    font-size: 15px;
-    outline: none;
-}
-
-.swap {
-    background: #8b5cf6;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    height: 45px;
-    cursor: pointer;
-    font-size: 22px;
-}
-
-.text-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-}
-
-.text-box {
-    background: #0b1426;
-    border: 1px solid #293653;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.box-heading {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px;
-    color: #aab3c9;
-    font-size: 13px;
-}
-
-textarea {
-    width: 100%;
-    height: 190px;
-    resize: vertical;
-    padding: 16px;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 17px;
-    line-height: 1.6;
-}
-
-textarea::placeholder {
-    color: #73809a;
-}
-
-.box-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 12px;
-    border-top: 1px solid #293653;
-}
-
-.small-btn {
-    background: #1c2942;
-    color: #dce4f5;
-    border: 1px solid #344362;
-    padding: 9px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.small-btn:hover {
-    background: #354568;
-}
-
-.translate-btn {
-    width: 100%;
-    padding: 16px;
-    margin-top: 22px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(90deg, #7c3aed, #4f46e5);
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.translate-btn:hover {
-    opacity: .9;
-}
-
-.translate-btn:disabled {
-    opacity: .6;
-    cursor: wait;
-}
-
-.status {
-    text-align: center;
-    color: #aab3c9;
-    min-height: 25px;
-    margin-top: 16px;
-    font-size: 13px;
-}
-
-.voice-settings {
-    background: #111a2e;
-    border: 1px solid #293653;
-    border-radius: 15px;
-    padding: 22px;
-    margin-top: 25px;
-}
-
-.voice-settings h3 {
-    margin-bottom: 16px;
-    color: #c4b5fd;
-}
-
-.voice-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.voice-grid label {
-    display: block;
-    color: #aab3c9;
-    font-size: 13px;
-    margin-bottom: 9px;
-}
-
-.features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 30px;
-}
-
-.feature {
-    background: #111a2e;
-    border: 1px solid #293653;
-    border-radius: 13px;
-    padding: 22px;
-}
-
-.feature h3 {
-    margin-bottom: 10px;
-    color: #c4b5fd;
-}
-
-.feature p {
-    color: #aab3c9;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-footer {
-    text-align: center;
-    color: #73809a;
-    padding: 30px 10px;
-    font-size: 13px;
-}
-
-@media(max-width:700px) {
-    header {
-        padding: 18px 5%;
-    }
-
-    .container {
-        margin: 35px auto;
-    }
-
-    .translator {
-        padding: 15px;
-    }
-
-    .text-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .language-bar {
-        grid-template-columns: 1fr 45px 1fr;
-        gap: 7px;
-    }
-
-    select {
-        padding: 11px 5px;
-        font-size: 12px;
-    }
-
-    .features {
-        grid-template-columns: 1fr;
-    }
-
-    .voice-grid {
-        grid-template-columns: 1fr;
-    }
+*{box-sizing:border-box}
+body{margin:0;padding:18px;background:#080d1b;color:#f4f5ff;font-family:Arial,sans-serif}
+.container{max-width:760px;margin:auto}
+header{text-align:center;padding:18px 8px}
+.logo{font-size:34px;font-weight:800;color:#b59aff}
+header p{color:#aab2ca;margin-top:8px}
+.card{background:#111a30;border:1px solid #293653;border-radius:20px;padding:21px;margin:17px 0;box-shadow:0 8px 25px #0002}
+h2{font-size:20px;color:#c9b7ff;margin:0 0 10px}
+.description{font-size:13px;line-height:1.6;color:#aab4cc;margin:0 0 18px}
+label{display:block;font-size:14px;font-weight:600;color:#dce2f5;margin:15px 0 8px}
+select,textarea,input{width:100%;border:1px solid #394766;background:#091225;color:white;border-radius:13px;padding:14px;font-size:15px;outline:none}
+select:focus,textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #8b5cf633}
+textarea{min-height:125px;resize:vertical;line-height:1.5}
+button{border:0;border-radius:12px;padding:13px 17px;background:#8b5cf6;color:white;font-size:14px;font-weight:700;cursor:pointer}
+button:active{transform:scale(.98)}
+button.secondary{background:#293653}
+button.stop{background:#b83250}
+button:disabled{opacity:.5;cursor:not-allowed}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.actions button{flex:1}
+.status{font-size:13px;color:#bda9ff;line-height:1.5;margin-top:12px;min-height:18px}
+.output{padding:16px;background:#091225;border:1px solid #293653;border-radius:13px;min-height:90px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.conversation-line{background:#091225;border:1px solid #293653;padding:14px;border-radius:13px;margin:10px 0;line-height:1.6;overflow-wrap:anywhere}
+.conversation-line strong{color:#c9b7ff}
+.small{font-size:12px;color:#929db8;line-height:1.5}
+footer{text-align:center;color:#8790a8;padding:20px;font-size:12px}
+@media(max-width:520px){
+ body{padding:10px}
+ .card{padding:16px;border-radius:16px}
+ .row{grid-template-columns:1fr}
+ .logo{font-size:29px}
+ button{padding:13px 10px}
 }
 </style>
 </head>
-
 <body>
+<div class="container">
 
 <header>
-    <div class="logo">Lingo<span>AI</span></div>
-    <div class="header-label">FREE LANGUAGE TRANSLATOR</div>
+ <div class="logo">🌍 LingoAI</div>
+ <p>Your Free Language Companion</p>
 </header>
 
-<main class="container">
+<section class="card">
+<h2>🌐 Translate Text</h2>
+<p class="description">Choose your languages, enter text and translate.</p>
 
-    <section class="hero">
-        <h1>Break <span>Language</span> Barriers</h1>
-        <p>Translate languages, speak naturally and learn something new every day.</p>
-    </section>
+<div class="row">
+ <div>
+  <label for="sourceLanguage">Translate From</label>
+  <select id="sourceLanguage"></select>
+ </div>
+ <div>
+  <label for="targetLanguage">Translate To</label>
+  <select id="targetLanguage"></select>
+ </div>
+</div>
 
-    <section class="translator">
+<div class="actions">
+ <button class="secondary" id="swapBtn">⇄ Swap Languages</button>
+</div>
 
-        <div class="language-bar">
+<label for="inputText">Your Text</label>
+<textarea id="inputText" placeholder="Type your text here..."></textarea>
 
-            <select id="sourceLanguage">
-                <option value="ur">Urdu</option>
-                <option value="en">English</option>
-                <option value="de">German</option>
-                <option value="ms">Malay</option>
-                <option value="hi">Hindi</option>
-            </select>
+<div class="actions">
+ <button id="translateBtn">Translate</button>
+ <button class="secondary" id="micBtn">🎙 Speak</button>
+ <button class="secondary" id="clearBtn">Clear</button>
+</div>
 
-            <button class="swap" onclick="swapLanguages()" title="Swap languages">⇄</button>
+<div class="status" id="translateStatus">Ready to translate.</div>
 
-            <select id="targetLanguage">
-                <option value="en">English</option>
-                <option value="ur">Urdu</option>
-                <option value="de">German</option>
-                <option value="ms">Malay</option>
-                <option value="hi">Hindi</option>
-            </select>
+<label>Translation Result</label>
+<div class="output" id="outputText">Your translation will appear here.</div>
 
-        </div>
+<div class="actions">
+ <button id="copyBtn">Copy Translation</button>
+ <button class="secondary" id="speakBtn">🔊 Listen</button>
+</div>
+</section>
 
-        <div class="text-grid">
+<section class="card">
+<h2>🎤 Voice Settings</h2>
+<p class="description">Choose whether you want a male or female voice. LingoAI will try to select a matching voice installed on your device.</p>
 
-            <div class="text-box">
+<label for="voiceGender">Speaking Voice</label>
+<select id="voiceGender">
+ <option value="female">♀ Female Voice</option>
+ <option value="male">♂ Male Voice</option>
+</select>
 
-                <div class="box-heading">
-                    <span>Your text</span>
-                    <span id="inputCount">0 characters</span>
-                </div>
+<label for="voiceSpeed">Speaking Speed</label>
+<select id="voiceSpeed">
+ <option value="0.75">🐢 Slow</option>
+ <option value="1" selected>▶ Normal</option>
+ <option value="1.25">⚡ Fast</option>
+</select>
 
-                <textarea id="inputText" placeholder="Yahan apna text likhein..."></textarea>
+<div class="status" id="voiceStatus">Voice settings ready.</div>
+<p class="small">Note: Male and female voice availability depends on your device. If it only has one suitable voice, the sound may not change when you switch the setting.</p>
+</section>
 
-                <div class="box-actions">
-                    <button class="small-btn" onclick="startVoice()">🎤 Speak</button>
-                    <button class="small-btn" onclick="clearInput()">✕ Clear</button>
-                </div>
+<section class="card">
+<h2>🗣️ Live Conversation</h2>
+<p class="description">Person A speaks in their language. LingoAI translates and reads it aloud in Person B's language. Then Person B can reply.</p>
 
-            </div>
+<label for="personA">Person A speaks</label>
+<select id="personA"></select>
 
-            <div class="text-box">
+<label for="personB">Person B speaks</label>
+<select id="personB"></select>
 
-                <div class="box-heading">
-                    <span>Translation</span>
-                    <span>Translated text</span>
-                </div>
+<div class="actions">
+ <button id="talkAB">🎙 Person A speaks</button>
+ <button id="talkBA">🎙 Person B speaks</button>
+</div>
+<div class="actions">
+ <button class="stop" id="stopConversation">■ Stop Conversation</button>
+ <button class="secondary" id="clearConversation">Clear Screen</button>
+</div>
 
-                <textarea id="outputText" placeholder="Translation yahan nazar ayegi..." readonly></textarea>
+<div class="status" id="conversationStatus">Ready. Choose who speaks first.</div>
+<div id="conversationResult"></div>
+</section>
 
-                <div class="box-actions">
-                    <button class="small-btn" onclick="speakText()">🔊 Listen</button>
-                    <button class="small-btn" onclick="copyText()">📋 Copy</button>
-                </div>
+<section class="card">
+<h2>📷 Scan Text from Photo</h2>
+<p class="description">Choose a photo of printed text to extract the words.</p>
+<input type="file" id="photoInput" accept="image/*" capture="environment">
+<div class="actions">
+ <button id="scanBtn">Scan Photo</button>
+</div>
+<div class="status" id="scanStatus"></div>
+</section>
 
-            </div>
+<footer>LingoAI © 2026 | Created by Sher Ghazi</footer>
+</div>
 
-        </div>
-
-        <button class="translate-btn" id="translateButton" onclick="translateText()">
-            ✨ Translate Now
-        </button>
-
-        <div class="status" id="status">Ready to translate.</div>
-
-    </section>
-
-    <section class="voice-settings">
-
-        <h3>🎙️ Voice Assistant Settings</h3>
-
-        <div class="voice-grid">
-
-            <div>
-                <label for="voiceGender">Select voice type</label>
-                <select id="voiceGender">
-                    <option value="female">Female Voice</option>
-                    <option value="male">Male Voice</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="voiceSpeed">Voice speed</label>
-                <select id="voiceSpeed">
-                    <option value="1">Normal</option>
-                    <option value="0.8">Slow</option>
-                    <option value="1.2">Fast</option>
-                </select>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="features">
-
-        <div class="feature">
-            <h3>🌍 AI Translation</h3>
-            <p>Translate between Urdu, English, German, Malay and Hindi using a free translation service.</p>
-        </div>
-
-        <div class="feature">
-            <h3>🎤 Voice Assistant</h3>
-            <p>Speak into your microphone and convert your voice into written text.</p>
-        </div>
-
-        <div class="feature">
-            <h3>📚 Learn Languages</h3>
-            <p>Practice different languages with text translation and spoken pronunciation.</p>
-        </div>
-
-    </section>
-
-</main>
-
-<footer>
-    LingoAI © 2026 | Your Free Language Companion
-</footer>
-
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
+const $ = id => document.getElementById(id);
 
-const languages = {
-    ur: "ur-PK",
-    en: "en-US",
-    de: "de-DE",
-    ms: "ms-MY",
-    hi: "hi-IN"
-};
+const languages = [
+["auto","Auto Detect"],["af","Afrikaans"],["sq","Albanian"],["am","Amharic"],
+["ar","Arabic"],["hy","Armenian"],["az","Azerbaijani"],["eu","Basque"],
+["be","Belarusian"],["bn","Bengali"],["bs","Bosnian"],["bg","Bulgarian"],
+["my","Burmese"],["ca","Catalan"],["zh-CN","Chinese Simplified"],
+["zh-TW","Chinese Traditional"],["hr","Croatian"],["cs","Czech"],
+["da","Danish"],["nl","Dutch"],["en","English"],["et","Estonian"],
+["tl","Filipino"],["fi","Finnish"],["fr","French"],["gl","Galician"],
+["ka","Georgian"],["de","German"],["el","Greek"],["gu","Gujarati"],
+["he","Hebrew"],["hi","Hindi"],["hu","Hungarian"],["is","Icelandic"],
+["id","Indonesian"],["ga","Irish"],["it","Italian"],["ja","Japanese"],
+["jv","Javanese"],["kn","Kannada"],["kk","Kazakh"],["km","Khmer"],
+["ko","Korean"],["lo","Lao"],["lv","Latvian"],["lt","Lithuanian"],
+["mk","Macedonian"],["ms","Malay"],["ml","Malayalam"],["mr","Marathi"],
+["mn","Mongolian"],["ne","Nepali"],["no","Norwegian"],["ps","Pashto"],
+["fa","Persian / Dari"],["pl","Polish"],["pt","Portuguese"],["pa","Punjabi"],
+["ro","Romanian"],["ru","Russian"],["sr","Serbian"],["sd","Sindhi"],
+["si","Sinhala"],["sk","Slovak"],["sl","Slovenian"],["so","Somali"],
+["es","Spanish"],["sw","Swahili"],["sv","Swedish"],["ta","Tamil"],
+["te","Telugu"],["th","Thai"],["tr","Turkish"],["uk","Ukrainian"],
+["ur","Urdu"],["uz","Uzbek"],["vi","Vietnamese"],["cy","Welsh"],
+["yi","Yiddish"],["yo","Yoruba"],["zu","Zulu"]
+];
 
-const input = document.getElementById("inputText");
-const output = document.getElementById("outputText");
-const statusBox = document.getElementById("status");
+function fillLanguages(id, selected) {
+ const el = $(id);
+ el.innerHTML = "";
+ languages.forEach(([code,name]) => {
+  const op = document.createElement("option");
+  op.value = code;
+  op.textContent = name;
+  if(code === selected) op.selected = true;
+  el.appendChild(op);
+ });
+}
 
-input.addEventListener("input", function() {
-    document.getElementById("inputCount").innerText =
-        input.value.length + " characters";
+fillLanguages("sourceLanguage","auto");
+fillLanguages("targetLanguage","en");
+fillLanguages("personA","ur");
+fillLanguages("personB","en");
+
+function locale(code) {
+ const map = {
+  "auto":"en-US","en":"en-US","ur":"ur-PK","hi":"hi-IN",
+  "ms":"ms-MY","de":"de-DE","ar":"ar-SA","fa":"fa-IR",
+  "ps":"ps-AF","zh-CN":"zh-CN","zh-TW":"zh-TW",
+  "pt":"pt-PT","es":"es-ES"
+ };
+ return map[code] || code;
+}
+
+/* TRANSLATION */
+async function translateText(text, from, to) {
+ if(!text.trim()) throw new Error("Please enter some text.");
+ const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" +
+ encodeURIComponent(from) + "&tl=" + encodeURIComponent(to) +
+ "&dt=t&q=" + encodeURIComponent(text);
+
+ const response = await fetch(url);
+ if(!response.ok) throw new Error("Translation service is unavailable. Try again.");
+ const data = await response.json();
+ if(!data || !data[0]) throw new Error("Could not translate this text.");
+ return data[0].map(part => part[0] || "").join("");
+}
+
+async function doTranslate() {
+ const text = $("inputText").value.trim();
+ if(!text) {
+  $("translateStatus").textContent = "Please enter text first.";
+  return;
+ }
+ $("translateBtn").disabled = true;
+ $("translateStatus").textContent = "Translating...";
+ try {
+  const result = await translateText(text,$("sourceLanguage").value,$("targetLanguage").value);
+  $("outputText").textContent = result;
+  $("translateStatus").textContent = "✓ Translation completed.";
+ } catch(e) {
+  $("translateStatus").textContent = "Error: " + e.message;
+ } finally {
+  $("translateBtn").disabled = false;
+ }
+}
+$("translateBtn").addEventListener("click",doTranslate);
+
+$("swapBtn").addEventListener("click",() => {
+ const a = $("sourceLanguage");
+ const b = $("targetLanguage");
+ if(a.value === "auto") {
+  $("translateStatus").textContent = "Choose a source language before swapping.";
+  return;
+ }
+ const old = a.value;
+ a.value = b.value;
+ b.value = old;
+ const input = $("inputText").value;
+ $("inputText").value = $("outputText").textContent === "Your translation will appear here." ? "" : $("outputText").textContent;
+ $("outputText").textContent = input || "Your translation will appear here.";
 });
 
-function swapLanguages() {
+$("clearBtn").addEventListener("click",() => {
+ $("inputText").value = "";
+ $("outputText").textContent = "Your translation will appear here.";
+ $("translateStatus").textContent = "Ready to translate.";
+});
 
-    const source = document.getElementById("sourceLanguage");
-    const target = document.getElementById("targetLanguage");
+$("copyBtn").addEventListener("click",async() => {
+ const text = $("outputText").textContent;
+ if(!text || text === "Your translation will appear here.") return;
+ try {
+  await navigator.clipboard.writeText(text);
+  $("translateStatus").textContent = "Translation copied.";
+ } catch(e) {
+  $("translateStatus").textContent = "Copy is unavailable in this browser.";
+ }
+});
 
-    const oldSource = source.value;
+/* SPEECH RECOGNITION */
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+let normalRecognition = null;
 
-    source.value = target.value;
-    target.value = oldSource;
+$("micBtn").addEventListener("click",() => {
+ if(!SpeechRecognitionAPI) {
+  $("translateStatus").textContent = "Voice input requires a supported browser such as Chrome.";
+  return;
+ }
+ try {
+  normalRecognition = new SpeechRecognitionAPI();
+  normalRecognition.lang = locale($("sourceLanguage").value);
+  normalRecognition.interimResults = false;
+  normalRecognition.maxAlternatives = 1;
+  $("translateStatus").textContent = "Listening. Please speak...";
+  normalRecognition.onresult = e => {
+   $("inputText").value = e.results[0][0].transcript;
+   $("translateStatus").textContent = "Voice captured. Press Translate.";
+  };
+  normalRecognition.onerror = e => {
+   $("translateStatus").textContent = "Microphone error: " + e.error;
+  };
+  normalRecognition.start();
+ } catch(e) {
+  $("translateStatus").textContent = e.message;
+ }
+});
 
-    const oldText = input.value;
+/* AUTOMATIC MALE / FEMALE VOICE SELECTION */
+let voices = [];
 
-    input.value = output.value;
-    output.value = oldText;
-
-    document.getElementById("inputCount").innerText =
-        input.value.length + " characters";
+function refreshVoices() {
+ voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+ if(voices.length) {
+  $("voiceStatus").textContent = voices.length + " device voices available. Your selected voice will be used when possible.";
+ }
 }
 
-function clearInput() {
-
-    input.value = "";
-    output.value = "";
-
-    document.getElementById("inputCount").innerText = "0 characters";
-
-    statusBox.innerText = "Text cleared.";
+refreshVoices();
+if("onvoiceschanged" in speechSynthesis) {
+ speechSynthesis.onvoiceschanged = refreshVoices;
 }
 
-async function translateText() {
+function genderMatch(voice,gender) {
+ const name = voice.name.toLowerCase();
 
-    const source = document.getElementById("sourceLanguage").value;
-    const target = document.getElementById("targetLanguage").value;
-    const button = document.getElementById("translateButton");
+ const femaleWords = ["female","woman","girl","samantha","victoria","karen","moira","zira","susan","ava","allison","jenny"];
+ const maleWords = ["male","man","boy","david","daniel","alex","george","james","guy","ryan","mark"];
 
-    const originalText = input.value.trim();
-
-    if (!originalText) {
-        statusBox.innerText = "Please enter some text first.";
-        return;
-    }
-
-    if (source === target) {
-        output.value = originalText;
-        statusBox.innerText = "Source and target languages are the same.";
-        return;
-    }
-
-    button.disabled = true;
-    button.innerText = "Translating...";
-    statusBox.innerText = "Please wait...";
-
-    try {
-
-        // Correct a common English question without punctuation.
-        let textToTranslate = originalText;
-
-        if (
-            source === "en" &&
-            /^how are you$/i.test(originalText)
-        ) {
-            textToTranslate = "How are you?";
-        }
-
-        const url =
-            "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" +
-            encodeURIComponent(source) +
-            "&tl=" +
-            encodeURIComponent(target) +
-            "&dt=t&q=" +
-            encodeURIComponent(textToTranslate);
-
-        const response = await fetch(url, {
-            method: "GET"
-        });
-
-        if (!response.ok) {
-            throw new Error("Translation service returned an error.");
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data) || !Array.isArray(data[0])) {
-            throw new Error("Invalid translation response.");
-        }
-
-        const translatedText = data[0]
-            .filter(item => Array.isArray(item))
-            .map(item => item[0] || "")
-            .join("")
-            .trim();
-
-        if (!translatedText) {
-            throw new Error("No translation was returned.");
-        }
-
-        output.value = translatedText;
-        statusBox.innerText = "✓ Translation completed.";
-
-    } catch (error) {
-
-        console.error("Translation error:", error);
-
-        statusBox.innerText =
-            "Translation failed. Please check your internet connection and try again.";
-
-    } finally {
-
-        button.disabled = false;
-        button.innerText = "✨ Translate Now";
-
-    }
+ const words = gender === "female" ? femaleWords : maleWords;
+ return words.some(word => name.includes(word));
 }
 
-function startVoice() {
+function chooseVoice(gender,language) {
+ if(!voices.length) refreshVoices();
+ if(!voices.length) return null;
 
-    const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
+ const lang = language.toLowerCase();
+ const languageVoices = voices.filter(v => v.lang.toLowerCase().startsWith(lang.split("-")[0]));
 
-    if (!SpeechRecognition) {
+ const matchingLanguage = languageVoices.length ? languageVoices : voices;
+ const matchingGender = matchingLanguage.filter(v => genderMatch(v,gender));
 
-        statusBox.innerText =
-            "Voice input is not supported in this browser. Please use Google Chrome.";
+ if(matchingGender.length) return matchingGender[0];
 
-        return;
-    }
+ if(matchingLanguage.length) {
+  $("voiceStatus").textContent = "No clearly matching " + gender + " voice found for this language. Using an available voice instead.";
+  return matchingLanguage[0];
+ }
 
-    const recognition = new SpeechRecognition();
-
-    const source = document.getElementById("sourceLanguage").value;
-
-    recognition.lang = languages[source];
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = function() {
-        statusBox.innerText = "🎤 Listening... Please speak now.";
-    };
-
-    recognition.onresult = function(event) {
-
-        input.value = event.results[0][0].transcript;
-
-        document.getElementById("inputCount").innerText =
-            input.value.length + " characters";
-
-        statusBox.innerText = "Voice converted to text.";
-    };
-
-    recognition.onerror = function(event) {
-        statusBox.innerText = "Microphone error: " + event.error;
-    };
-
-    recognition.onend = function() {
-
-        if (statusBox.innerText.includes("Listening")) {
-            statusBox.innerText = "Voice input ended.";
-        }
-
-    };
-
-    recognition.start();
+ return null;
 }
 
-function speakText() {
+function speakText(text,language) {
+ if(!text || !text.trim()) return;
 
-    const text = output.value.trim();
+ if(!window.speechSynthesis) {
+  $("voiceStatus").textContent = "Speech output is not supported on this device.";
+  return;
+ }
 
-    if (!text) {
-        statusBox.innerText = "Translate something first.";
-        return;
-    }
+ const gender = $("voiceGender").value;
+ const voice = chooseVoice(gender,locale(language));
 
-    if (!("speechSynthesis" in window)) {
-        statusBox.innerText = "Voice output is not supported in this browser.";
-        return;
-    }
+ if(!voice) {
+  $("voiceStatus").textContent = "No device voices found. Check your device speech settings.";
+  return;
+ }
 
-    speechSynthesis.cancel();
+ speechSynthesis.cancel();
 
-    const target = document.getElementById("targetLanguage").value;
-    const gender = document.getElementById("voiceGender").value;
-    const speed = Number(document.getElementById("voiceSpeed").value);
+ const utterance = new SpeechSynthesisUtterance(text);
+ utterance.voice = voice;
+ utterance.lang = voice.lang || locale(language);
+ utterance.rate = Number($("voiceSpeed").value);
 
-    const utterance = new SpeechSynthesisUtterance(text);
+ utterance.onstart = () => {
+  $("voiceStatus").textContent = "Speaking with " + voice.name + ".";
+ };
+ utterance.onerror = e => {
+  $("voiceStatus").textContent = "Voice error: " + e.error;
+ };
 
-    utterance.lang = languages[target];
-    utterance.rate = speed;
-
-    const availableVoices = speechSynthesis.getVoices();
-
-    const matchingVoices = availableVoices.filter(voice =>
-        voice.lang.toLowerCase().startsWith(target)
-    );
-
-    let selectedVoice = matchingVoices.find(voice =>
-        gender === "female"
-            ? /female|woman|zira|samantha|susan|google uk english female/i.test(voice.name)
-            : /male|man|david|mark|alex|daniel|google uk english male/i.test(voice.name)
-    );
-
-    if (!selectedVoice && matchingVoices.length > 0) {
-        selectedVoice = matchingVoices[0];
-    }
-
-    if (selectedVoice) {
-        utterance.voice = selectedVoice;
-    }
-
-    utterance.onstart = function() {
-        statusBox.innerText = "🔊 Speaking...";
-    };
-
-    utterance.onend = function() {
-        statusBox.innerText = "Voice playback finished.";
-    };
-
-    speechSynthesis.speak(utterance);
+ speechSynthesis.speak(utterance);
 }
 
-function copyText() {
+$("speakBtn").addEventListener("click",() => {
+ speakText($("outputText").textContent,$("targetLanguage").value);
+});
 
-    const text = output.value;
+/* LIVE CONVERSATION */
+let conversationRunning = false;
+let activeRecognition = null;
 
-    if (!text) {
-        statusBox.innerText = "Nothing to copy.";
-        return;
+function stopConversation() {
+ conversationRunning = false;
+ if(activeRecognition) {
+  try { activeRecognition.abort(); } catch(e) {}
+  activeRecognition = null;
+ }
+ if(window.speechSynthesis) speechSynthesis.cancel();
+ $("conversationStatus").textContent = "Conversation stopped.";
+ $("talkAB").disabled = false;
+ $("talkBA").disabled = false;
+}
+
+$("stopConversation").addEventListener("click",stopConversation);
+$("clearConversation").addEventListener("click",() => {
+ $("conversationResult").innerHTML = "";
+ $("conversationStatus").textContent = "Conversation screen cleared.";
+});
+
+function listenForTurn(language) {
+ return new Promise((resolve,reject) => {
+  if(!SpeechRecognitionAPI) {
+   reject(new Error("Please use Chrome for voice input."));
+   return;
+  }
+  let finished = false;
+  try {
+   const rec = new SpeechRecognitionAPI();
+   activeRecognition = rec;
+   rec.lang = locale(language);
+   rec.interimResults = false;
+   rec.maxAlternatives = 1;
+
+   rec.onresult = e => {
+    if(finished) return;
+    finished = true;
+    resolve(e.results[0][0].transcript);
+   };
+   rec.onerror = e => {
+    if(finished) return;
+    finished = true;
+    reject(new Error("Microphone error: " + e.error));
+   };
+   rec.onend = () => {
+    if(!finished) {
+     finished = true;
+     reject(new Error("No speech detected. Please try again."));
     }
-
-    navigator.clipboard.writeText(text)
-
-        .then(() => {
-            statusBox.innerText = "✓ Translation copied!";
-        })
-
-        .catch(() => {
-
-            output.select();
-
-            document.execCommand("copy");
-
-            statusBox.innerText = "Translation copied.";
-
-        });
+   };
+   rec.start();
+  } catch(e) {
+   reject(e);
+  }
+ });
 }
 
-if ("serviceWorker" in navigator) {
+async function conversationTurn(person) {
+ if(conversationRunning) return;
 
-    window.addEventListener("load", () => {
+ const from = person === "A" ? $("personA").value : $("personB").value;
+ const to = person === "A" ? $("personB").value : $("personA").value;
 
-        navigator.serviceWorker.register("./service-worker.js")
+ conversationRunning = true;
+ $("talkAB").disabled = true;
+ $("talkBA").disabled = true;
 
-            .then(() => console.log("LingoAI offline support enabled"))
+ try {
+  $("conversationStatus").textContent = "Person " + person + " is speaking. Listening...";
+  const original = await listenForTurn(from);
+  activeRecognition = null;
 
-            .catch(error =>
-                console.error("Service worker registration failed:", error)
-            );
+  if(!conversationRunning) return;
 
-    });
+  $("conversationStatus").textContent = "Translating...";
+  const translated = await translateText(original,from,to);
 
+  if(!conversationRunning) return;
+
+  const block = document.createElement("div");
+  block.className = "conversation-line";
+
+  const heading = document.createElement("strong");
+  heading.textContent = "Person " + person;
+
+  const originalLine = document.createElement("div");
+  originalLine.textContent = original;
+
+  const translatedLine = document.createElement("div");
+  translatedLine.style.color = "#c9b7ff";
+  translatedLine.style.marginTop = "8px";
+  translatedLine.textContent = "Translation: " + translated;
+
+  block.append(heading,originalLine,translatedLine);
+  $("conversationResult").prepend(block);
+
+  $("conversationStatus").textContent = "Translation complete. Playing audio...";
+  speakText(translated,to);
+  $("conversationStatus").textContent = "Done. The other person can speak now.";
+
+ } catch(e) {
+  if(conversationRunning) $("conversationStatus").textContent = e.message;
+ } finally {
+  conversationRunning = false;
+  activeRecognition = null;
+  $("talkAB").disabled = false;
+  $("talkBA").disabled = false;
+ }
 }
 
+$("talkAB").addEventListener("click",() => conversationTurn("A"));
+$("talkBA").addEventListener("click",() => conversationTurn("B"));
+
+/* PHOTO TEXT SCANNER */
+$("scanBtn").addEventListener("click",async() => {
+ const file = $("photoInput").files[0];
+ if(!file) {
+  $("scanStatus").textContent = "Please choose a photo first.";
+  return;
+ }
+ $("scanBtn").disabled = true;
+ $("scanStatus").textContent = "Scanning image. Please wait...";
+ try {
+  const result = await Tesseract.recognize(file,"eng");
+  $("inputText").value = result.data.text.trim();
+  $("scanStatus").textContent = "Text extracted. Check it and press Translate.";
+ } catch(e) {
+  $("scanStatus").textContent = "Scan failed: " + e.message;
+ } finally {
+  $("scanBtn").disabled = false;
+ }
+});
+
+/* SERVICE WORKER */
+if("serviceWorker" in navigator) {
+ window.addEventListener("load",() => {
+  navigator.serviceWorker.register("service-worker.js").catch(console.error);
+ });
+}
 </script>
-
 </body>
 </html>
